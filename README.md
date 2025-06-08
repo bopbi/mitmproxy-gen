@@ -1,6 +1,60 @@
 # mitmproxy-gen
 
-generate a config like 
+## How To use
+1. Generate json config using config gen tool
+2. execute mitmproxy plugin `mitmproxy -s modify.py`
+
+### Docs
+
+#### Dependencies
+1. sqlite
+2. mitmproxy
+
+#### Config Gen Tools
+CRUD urls and mock patterns from the sqlite file `template.sqlite`
+
+#### Sqlite DB Structure
+
+##### url_pattern
+| name        | type                              |
+| ----------- | --------------------------------- |
+| id          | INTEGER PRIMARY KEY AUTOINCREMENT |
+| url_pattern | TEXT NOT NULL                     |
+
+##### label
+| name | type                              |
+| ---- | --------------------------------- |
+| id   | INTEGER PRIMARY KEY AUTOINCREMENT |
+| name | TEXT NOT NULL                     |
+
+##### url_label
+| name           | type                              |
+| -------------- | --------------------------------- |
+| id             | INTEGER PRIMARY KEY AUTOINCREMENT |
+| url_pattern_id | INTEGER NOT NULL                  |
+| label_id       | INTEGER NOT NULL                  |
+
+##### response_body_template
+| name          | type                              |
+| ------------- | --------------------------------- |
+| id            | INTEGER PRIMARY KEY AUTOINCREMENT |
+| response_body | TEXT NOT NULL                     |
+
+##### active_blocked_url
+| name           | type                              |
+| -------------- | --------------------------------- |
+| id             | INTEGER PRIMARY KEY AUTOINCREMENT |
+| url_pattern_id | INTEGER NOT NULL                  |
+
+##### active_mocked_url
+| name             | type                              |
+| ---------------- | --------------------------------- |
+| id               | INTEGER PRIMARY KEY AUTOINCREMENT |
+| url_pattern_id   | INTEGER NOT NULL                  |
+| response_body_id |INTEGER NOT NULL                  |
+
+
+#### JSON Config
 ```json
 {
   "block": [
@@ -19,32 +73,4 @@ generate a config like
     }
   ]
 }
-```
-
-that later can be used on a mitmproxy addon script like
-```python
-import json
-from mitmproxy import http
-
-with open("mitm_rules.json") as f:
-    config = json.load(f)
-
-BLOCKED_PATHS = config.get("block", [])
-MOCKED = {m["endpoint"]: m["response"] for m in config.get("mock", [])}
-
-def request(flow: http.HTTPFlow) -> None:
-    for path in BLOCKED_PATHS:
-        if path in flow.request.path:
-            flow.response = http.Response.make(403, b"Blocked by config", {"Content-Type": "text/html"})
-            return
-
-def response(flow: http.HTTPFlow) -> None:
-    for endpoint, mock in MOCKED.items():
-        if endpoint in flow.request.path:
-            flow.response = http.Response.make(
-                mock.get("status_code", 200),
-                json.dumps(mock.get("body", {})).encode(),
-                mock.get("headers", {"Content-Type": "application/json"})
-            )
-            return
 ```
