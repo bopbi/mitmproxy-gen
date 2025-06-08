@@ -51,7 +51,7 @@ CRUD urls and mock patterns from the sqlite file `template.sqlite`
 | ---------------- | --------------------------------- |
 | id               | INTEGER PRIMARY KEY AUTOINCREMENT |
 | url_pattern_id   | INTEGER NOT NULL                  |
-| response_body_id |INTEGER NOT NULL                  |
+| response_body_id | INTEGER NOT NULL                  |
 
 
 #### JSON Config
