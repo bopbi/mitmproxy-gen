@@ -7,8 +7,9 @@
 ### Docs
 
 #### Dependencies
-1. sqlite
-2. mitmproxy
+1. mitmproxy installed and accessible from command line
+2. sqlite
+3. openJDK 17
 
 #### Config Gen Tools
 CRUD urls and mock patterns from the sqlite file `template.sqlite`
@@ -47,11 +48,11 @@ CRUD urls and mock patterns from the sqlite file `template.sqlite`
 | url_pattern_id | INTEGER NOT NULL                  |
 
 ##### active_mocked_url
-| name             | type                              |
-| ---------------- | --------------------------------- |
-| id               | INTEGER PRIMARY KEY AUTOINCREMENT |
-| url_pattern_id   | INTEGER NOT NULL                  |
-| response_body_id | INTEGER NOT NULL                  |
+| name                      | type                              |
+| ------------------------- | --------------------------------- |
+| id                        | INTEGER PRIMARY KEY AUTOINCREMENT |
+| url_pattern_id            | INTEGER NOT NULL                  |
+| response_body_template_id | INTEGER NOT NULL                  |
 
 
 #### JSON Config
