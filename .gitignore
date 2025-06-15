@@ -132,3 +132,8 @@ gradle-app.setting
 
 .DS_Store
 
+# ignore gen sqlite
+*.sqlite
+
+# ignore gen binary
+config-gen
