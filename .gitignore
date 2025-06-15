@@ -137,3 +137,6 @@ gradle-app.setting
 
 # ignore gen binary
 config-gen
+
+# ignore .o
+*.o
