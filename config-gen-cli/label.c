@@ -57,7 +57,7 @@ void read_label(sqlite3 *db) {
         }
         sqlite3_finalize(stmt);
     } else {
-        printf("Failed to fetch url patterns.\n");
+        printf("Failed to fetch labels.\n");
     }
 }
 
