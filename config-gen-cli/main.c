@@ -5,6 +5,7 @@
 #include "url_pattern.h"
 #include "label.h"
 #include "url_label.h"
+#include "response_body.h"
 
 void url_pattern_menu(sqlite3 *db) {
     int choice;
@@ -75,6 +76,29 @@ void url_label_menu(sqlite3 *db) {
     } while (choice != 0);
 }
 
+void response_body_menu(sqlite3 *db) {
+    int choice;
+    do {
+        printf("\n--- Url response_body Menu ---\n");
+        printf("1. Create\n");
+        printf("2. Read\n");
+        printf("3. Update\n");
+        printf("4. Delete\n");
+        printf("0. Back to Main Menu\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: create_response_body(db); break;
+            case 2: read_response_body(db); break;
+            case 3: update_response_body(db); break;
+            case 4: delete_response_body(db); break;
+            case 0: break;
+            default: printf("Invalid choice!\n");
+        }
+    } while (choice != 0);
+}
+
 int main() {
     sqlite3 *db;
     int openRC = sqlite3_open("config.sqlite", &db);
@@ -95,7 +119,7 @@ int main() {
         printf("1. URL Pattern CRUD\n");
         printf("2. Label CRUD\n");
         printf("3. URL Label CRUD\n");
-        // Add entries for other tables here, e.g. 2. Label CRUD, 3. Url Label CRUD, etc.
+        printf("4. Response Body CRUD\n");
         printf("0. Exit\n");
         printf("Enter choice: ");
         scanf("%d", &choice);
@@ -104,6 +128,7 @@ int main() {
             case 1: url_pattern_menu(db); break;
             case 2: label_menu(db); break;
             case 3: url_label_menu(db); break;
+            case 4: response_body_menu(db); break;
             // etc.
             case 0: break;
             default: printf("Invalid choice!\n");

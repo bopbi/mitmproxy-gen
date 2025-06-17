@@ -40,7 +40,7 @@ void update_url_label(sqlite3 *db) {
     scanf("%d", &new_label_id);
 
     sqlite3_stmt *stmt;
-    const char *sql = "UPDATE label SET url_pattern_id=?, label_id=? WHERE id=?;";
+    const char *sql = "UPDATE url_label SET url_pattern_id=?, label_id=? WHERE id=?;";
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK) {
         sqlite3_bind_int(stmt, 1, new_url_pattern_id);
         sqlite3_bind_int(stmt, 2, new_label_id);
@@ -58,7 +58,7 @@ void update_url_label(sqlite3 *db) {
 
 void read_url_label(sqlite3 *db) {
     sqlite3_stmt *stmt;
-    const char *sql = "SELECT id, url_pattern_id, label_id FROM label;";
+    const char *sql = "SELECT id, url_pattern_id, label_id FROM url_label;";
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, 0) == SQLITE_OK) {
         printf("ID\turl_pattern_id\tlabel_id\n");
         while (sqlite3_step(stmt) == SQLITE_ROW) {
